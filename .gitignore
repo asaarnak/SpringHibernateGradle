@@ -1,0 +1,7 @@
+#Ignore some generated files and folders.
+.project
+.classpath
+.gradle/
+.settings/
+build/
+bin/

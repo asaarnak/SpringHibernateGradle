@@ -1,0 +1,59 @@
+// ================================================================================
+// 								PLUGIN
+// ================================================================================
+version = '0.0.1-SNAPSHOT'
+
+apply plugin: 'eclipse'
+apply plugin: 'tomcat'
+
+// ================================================================================
+// 								DEPENDENCIES
+// ================================================================================
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	def postgresqlVersion = '9.0-801.jdbc4'
+	def springVersion = '3.0.5.RELEASE'
+	
+	providedCompile "javax.servlet:servlet-api:2.5"
+	compile "javax.transaction:transaction-api:1.1",
+			"org.springframework:spring-beans:${springVersion}",
+			"org.springframework:spring-jdbc:${springVersion}",
+			"org.springframework:spring-web:${springVersion}",
+			"org.springframework:spring-webmvc:${springVersion}",
+			"org.springframework:spring-orm:${springVersion}",
+			'org.hibernate:hibernate-entitymanager:3.3.2.GA',
+			'taglibs:standard:1.1.2',
+			'javax.servlet:jstl:1.1.2',
+			'commons-dbcp:commons-dbcp:20030825.184428',
+			'commons-pool:commons-pool:20030825.183949',
+			"postgresql:postgresql:${postgresqlVersion}"
+}
+
+//Special logic requiered for applying plugin
+buildscript {
+	repositories {
+		add(new org.apache.ivy.plugins.resolver.URLResolver()) {
+			name = "GitHub"
+			addArtifactPattern 'http://cloud.github.com/downloads/bmuschko/gradle-tomcat-plugin/[module]-[revision].[ext]'
+		}
+		mavenCentral()
+	}
+
+	dependencies {
+		def tomcatVersion = '7.0.14'
+		classpath ':gradle-tomcat-plugin:0.7'
+		classpath "org.apache.tomcat.embed:tomcat-embed-core:${tomcatVersion}",
+		"org.apache.tomcat.embed:tomcat-embed-logging-juli:${tomcatVersion}"
+		classpath "org.apache.tomcat.embed:tomcat-embed-jasper:${tomcatVersion}"
+		classpath fileTree(dir: '/src/main/webapp/WEB-INF/lib', include: '*.jar')
+	}
+}
+
+
+//================================================================================
+// 								TASKS
+//================================================================================
