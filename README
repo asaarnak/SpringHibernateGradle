@@ -1,7 +1,10 @@
 The soucre of my test project.
-Master1
-Master2
-Master3
-Child1
-Child2
-Child3
+Im using postgreSql v 9.0.4
+And apache tomcat 7.0.14
+Gradle 1.0-miletstone-3 is used for building the project.
+I use the project in STS 2.7.0.M1.
+
+To generate eclipse project files.
+gradle eclipse
+To build the project war file.
+gradle war
